@@ -1,0 +1,31 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "authenticationType": "jwt",
+    "baseName": "demoMonolithic",
+    "buildTool": "maven",
+    "cacheProvider": "ehcache",
+    "clientFramework": "react",
+    "clientPackageManager": "npm",
+    "creationTimestamp": 1758896194311,
+    "databaseType": "sql",
+    "enableHibernateCache": true,
+    "enableTranslation": false,
+    "entities": [],
+    "jhipsterVersion": "8.11.0",
+    "jwtSecretKey": "fa087711bd7fbf3519d20d532a3523998795569cf662925b390f6cf272bfba2b",
+    "languages": ["en"],
+    "microfrontend": false,
+    "nativeLanguage": "en",
+    "packageName": "com.example.demoMonolithic",
+    "prodDatabaseType": "postgresql",
+    "reactive": false,
+    "serverPort": "8080",
+    "serviceDiscoveryType": "eureka",
+    "skipClient": false,
+    "skipServer": false,
+    "skipUserManagement": false,
+    "testFrameworks": ["cypress"],
+    "websocket": "false"
+  }
+}
