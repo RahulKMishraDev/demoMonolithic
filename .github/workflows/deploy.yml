@@ -52,7 +52,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker tag demoMonolithic public.ecr.aws/c4d3l3m6/demomonolithic:latest
+          docker tag demomonolithic public.ecr.aws/c4d3l3m6/demomonolithic:latest
           docker push public.ecr.aws/c4d3l3m6/demomonolithic:latest
 
   deploy-to-ec2:
