@@ -99,7 +99,7 @@ jobs:
             docker pull public.ecr.aws/c4d3l3m6/demomonolithic:latest
 
             if [ -d "demoMonolithic/.git" ]; then
-              cd demoMonolithic
+              cd demomonolithic
               git pull origin main
             else
               git clone https://github.com/RahulKMishraDev/demoMonolithic
