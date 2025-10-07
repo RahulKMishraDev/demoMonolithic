@@ -11,7 +11,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      PUBLIC_ECR_REPOSITORY_URI: public.ecr.aws/c4d3l3m6/demoMonolithic
+      PUBLIC_ECR_REPOSITORY_URI: public.ecr.aws/c4d3l3m6/demomonolithic
       IMAGE_TAG: latest
 
     steps:
@@ -42,7 +42,6 @@ jobs:
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Log in to Amazon ECR Public
@@ -53,8 +52,8 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker tag demoMonolithic public.ecr.aws/c4d3l3m6/demoMonolithic:latest
-          docker push public.ecr.aws/c4d3l3m6/demoMonolithic:latest
+          docker tag demoMonolithic public.ecr.aws/c4d3l3m6/demomonolithic:latest
+          docker push public.ecr.aws/c4d3l3m6/demomonolithic:latest
 
   deploy-to-ec2:
     runs-on: ubuntu-latest
@@ -64,8 +63,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-      PUBLIC_ECR_REPOSITORY_URI: public.ecr.aws/c4d3l3m6/demoMonolithic:latest
-      ECR_REPOSITORY: demoMonolithic
+      PUBLIC_ECR_REPOSITORY_URI: public.ecr.aws/c4d3l3m6/demomonolithic:latest
+      ECR_REPOSITORY: demomonolithic
       IMAGE_TAG: latest
 
     steps:
@@ -78,13 +77,13 @@ jobs:
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/ec2-keypair.pem
           chmod 600 ~/.ssh/ec2-keypair.pem
           ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2-keypair.pem ubuntu@${{ secrets.EC2_IP }} <<EOF
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2-keypair.pem ec2-user@${{ secrets.EC2_IP }} <<EOF
 
             sudo apt update
             sudo apt install -y docker.io
             sudo systemctl start docker
             sudo systemctl enable docker
-            sudo usermod -aG docker ubuntu
+            sudo usermod -aG docker ec2-user
             newgrp docker
 
             if ! command -v aws &> /dev/null; then
@@ -97,7 +96,7 @@ jobs:
             sudo chmod +x /usr/local/bin/docker-compose
             docker-compose --version
 
-            docker pull public.ecr.aws/c4d3l3m6/demoMonolithic:latest
+            docker pull public.ecr.aws/c4d3l3m6/demomonolithic:latest
 
             if [ -d "demoMonolithic/.git" ]; then
               cd demoMonolithic
