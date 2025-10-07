@@ -80,6 +80,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2-keypair.pem ec2-user@${{ secrets.EC2_IP }} <<EOF
 
             sudo apt update
+            sudo yum install git -y
             sudo apt install -y docker.io
             sudo systemctl start docker
             sudo systemctl enable docker
