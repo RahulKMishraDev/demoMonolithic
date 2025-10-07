@@ -79,9 +79,8 @@ jobs:
           ssh-keyscan -H ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2-keypair.pem ec2-user@${{ secrets.EC2_IP }} <<EOF
 
-            sudo apt update
-            sudo yum install git -y
-            sudo apt install -y docker.io
+            sudo dnf update -y
+            sudo dnf install -y docker git
             sudo systemctl start docker
             sudo systemctl enable docker
             sudo usermod -aG docker ec2-user
@@ -103,7 +102,7 @@ jobs:
               cd demoMonolithic
               git pull origin main
             else
-              git clone https://github.com//demoMonolithic
+              git clone https://github.com/RahulKMishraDev/demoMonolithic
               cd demoMonolithic
             fi
 
